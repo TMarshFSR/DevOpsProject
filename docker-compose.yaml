@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+    - target: 80
+      published: 80
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf 
+
+  front-end-app:
+    container_name: front-end-app
+    image: tmarshqa/front-end-app
+    build: ./frontend
+
+  back-end-app:
+    container_name: back-end-app
+    image: tmarshqa/back-end-app
+    build: ./backend
+
+
+  test-db:
+    container_name: mysql
+    image: tmarshqa/testdb
+    build: ./database
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MY_SQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: testdb
+    volumes:
+    - type: volume
+      source: testdb-volume
+      target: /var/lib/mysql
+volumes:
+  testdb-volume:
