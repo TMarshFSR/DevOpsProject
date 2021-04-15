@@ -11,27 +11,27 @@ services:
       source: ./nginx/nginx.conf
       target: /etc/nginx/nginx.conf 
 
-  front-end-app:
-    container_name: front-end-app
-    image: tmarshqa/front-end-app
+  frontend:
+    container_name: frontend
+    image: tmarshqa/frontend
     build: ./frontend
 
-  back-end-app:
-    container_name: back-end-app
-    image: tmarshqa/back-end-app
+  backend:
+    container_name: backend
+    image: tmarshqa/backend
     build: ./backend
 
 
-  test-db:
+  db:
     container_name: mysql
-    image: tmarshqa/testdb
+    image: tmarshqa/db
     build: ./database
     environment:
-      MYSQL_ROOT_PASSWORD: ${MY_SQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: users
     volumes:
     - type: volume
-      source: testdb-volume
+      source: db-volume
       target: /var/lib/mysql
 volumes:
-  testdb-volume:
+  db-volume:
